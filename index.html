@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WDev /&gt; — Desenvolvimento Web &amp; Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --yellow: #f5b731;
+      --orange: #e8872b;
+      --deep-orange: #d45a1f;
+      --dark: #1a1a1a;
+      --light: #fefefe;
+      --gradient: linear-gradient(135deg, #f5c842 0%, #e8962b 40%, #d45a1f 100%);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      backdrop-filter: blur(20px);
+      background: rgba(26,26,26,.6);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      transition: background .3s;
+    }
+
+    .nav-logo {
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: -1px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-logo span {
+      font-weight: 400;
+      -webkit-text-fill-color: rgba(255,255,255,.8);
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      transition: color .3s;
+    }
+
+    .nav-links a:hover { color: var(--yellow); }
+
+    .nav-cta {
+      padding: .6rem 1.6rem;
+      border: 1.5px solid var(--orange);
+      border-radius: 50px;
+      color: var(--orange) !important;
+      transition: all .3s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--orange);
+      color: var(--dark) !important;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated bg nodes */
+    .hero-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      filter: blur(160px);
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    .hero-glow--1 {
+      background: var(--yellow);
+      top: -20%; left: -10%;
+    }
+
+    .hero-glow--2 {
+      background: var(--deep-orange);
+      bottom: -20%; right: -10%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 860px;
+      padding: 2rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .45rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(245,183,49,.1);
+      border: 1px solid rgba(245,183,49,.25);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      animation: pulse 2s ease infinite;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -3px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .8s ease .15s both;
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.7;
+      color: rgba(255,255,255,.55);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      animation: fadeUp .8s ease .3s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp .8s ease .45s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .9rem 2.2rem;
+      border-radius: 60px;
+      font-size: .95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: var(--dark);
+      box-shadow: 0 4px 30px rgba(232,135,43,.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(232,135,43,.5);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,.05);
+      color: var(--light);
+      border: 1.5px solid rgba(255,255,255,.12);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.25);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      animation: fadeUp .8s ease .8s both;
+    }
+
+    .scroll-hint span {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.3);
+    }
+
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+      animation: scrollDown 2s ease infinite;
+    }
+
+    /* ---- STATS ---- */
+    .stats {
+      padding: 5rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 20px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: all .3s;
+    }
+
+    .stat:hover {
+      background: rgba(245,183,49,.05);
+      border-color: rgba(245,183,49,.15);
+      transform: translateY(-4px);
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: .4rem;
+    }
+
+    .stat-label {
+      font-size: .8rem;
+      color: rgba(255,255,255,.45);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    /* ---- SERVICES ---- */
+    .services {
+      padding: 6rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 600;
+      color: var(--orange);
+      margin-bottom: .8rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      margin-bottom: 3.5rem;
+      line-height: 1.15;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gradient);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s;
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-card:hover {
+      background: rgba(255,255,255,.05);
+      border-color: rgba(245,183,49,.15);
+      transform: translateY(-6px);
+    }
+
+    .service-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(245,183,49,.15), rgba(212,90,31,.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: .8rem;
+    }
+
+    .service-card p {
+      font-size: .9rem;
+      color: rgba(255,255,255,.45);
+      line-height: 1.7;
+    }
+
+    /* ---- TECH STACK ---- */
+    .tech {
+      padding: 5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .tech-logos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .tech-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      opacity: .4;
+      transition: opacity .3s, transform .3s;
+      cursor: default;
+    }
+
+    .tech-item:hover {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+
+    .tech-item svg {
+      width: 40px; height: 40px;
+    }
+
+    .tech-item span {
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    /* ---- CTA ---- */
+    .cta-section {
+      padding: 8rem 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(232,135,43,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .cta-section p {
+      color: rgba(255,255,255,.45);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 3rem 4rem;
+      border-top: 1px solid rgba(255,255,255,.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(255,255,255,.3);
+      font-size: .8rem;
+    }
+
+    .footer-logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    @keyframes scrollDown {
+      0% { opacity: 0; transform: translateY(-10px); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(10px); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); padding: 3rem 1.5rem; }
+      .services { padding: 4rem 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 5rem 1.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { letter-spacing: -1.5px; }
+      .stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .stat { padding: 1.5rem 1rem; }
+    }
+
+    /* Hamburger */
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+    .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--light); margin: 5px 0; border-radius: 2px; transition: .3s; }
+    @media (max-width: 900px) { .menu-toggle { display: block; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">WDev <span>/&gt;</span></div>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicos">Servicos</a></li>
+      <li><a href="#contato" class="nav-cta">Contato</a></li>
+    </ul>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <canvas class="hero-canvas" id="nodeCanvas"></canvas>
+    <div class="hero-glow hero-glow--1"></div>
+    <div class="hero-glow hero-glow--2"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">Desenvolvimento Web &amp; Mobile</div>
+      <h1>
+        Transformamos ideias<br>
+        em <span class="gradient-text">experiencias digitais</span>
+      </h1>
+      <p>
+        Planejamento estrategico, design e desenvolvimento de aplicativos e solucoes web sob medida para o seu negocio. Mais de 8 anos criando produtos digitais que fazem a diferenca.
+      </p>
+      <div class="hero-buttons">
+        <a href="https://wa.me/5518997217059" target="_blank" rel="noopener" class="btn btn-primary">
+          Fale Conosco
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#servicos" class="btn btn-ghost">Nossos Servicos</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-number">8+</div>
+      <div class="stat-label">Anos de experiencia</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">50+</div>
+      <div class="stat-label">Projetos entregues</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Foco no cliente</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Suporte dedicado</div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="servicos">
+    <div class="section-tag">O que fazemos</div>
+    <h2 class="section-title">Solucoes completas<br>para o mundo digital</h2>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" fill="none" stroke="#e8962b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="22" height="16" rx="2"/><path d="M8 25h12M14 19v6"/></svg>
+        </div>
+        <h3>Desenvolvimento Web</h3>
+        <p>Sites e plataformas web responsivas, rapidas e otimizadas com as tecnologias mais modernas do mercado.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" fill="none" stroke="#e8962b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="14" height="24" rx="3"/><path d="M11 5h6"/><circle cx="14" cy="22" r="1"/></svg>
+        </div>
+        <h3>Apps Mobile</h3>
+        <p>Aplicativos nativos e multiplataforma para iOS e Android, pensados na melhor experiencia do usuario.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="28" height="28" fill="none" stroke="#e8962b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Planejamento &amp; Estrategia</h3>
+        <p>Da ideia ao produto. Mapeamos, prototipamos e planejamos cada etapa para garantir resultados reais.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH MARQUEE -->
+  <section class="tech">
+    <div class="section-tag">Tecnologias</div>
+    <h2 class="section-title">Stack que utilizamos</h2>
+    <div class="tech-logos">
+      <div class="tech-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.357zm.014 11.072L7.857 17.53l3.7 3.7 12.013-12.016h-9.242z"/></svg>
+        <span>Flutter</span>
+      </div>
+      <div class="tech-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.405-.6-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179z"/></svg>
+        <span>JavaScript</span>
+      </div>
+      <div class="tech-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.375 0 0 5.375 0 12c0 6.627 5.375 12 12 12 6.626 0 12-5.373 12-12 0-6.625-5.374-12-12-12zm-.624 3.085h1.248v3.818l-1.248-.003V3.085zM5.9 5.9l.882-.882 2.7 2.7-.883.882L5.9 5.9zm12.2 0L15.4 8.6l-.882-.882 2.7-2.7.882.882zM3.085 11.376h3.818v1.248H3.085v-1.248zm14.012 0h3.818v1.248h-3.818v-1.248zM8.6 15.4l.882.882-2.7 2.7-.882-.882L8.6 15.4zm6.8 0l2.7 2.7-.882.882-2.7-2.7.882-.882zm-3.776 1.518h1.248v3.818h-1.248v-3.818z"/></svg>
+        <span>.NET</span>
+      </div>
+      <div class="tech-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 3l1.578 17.824L12 22l8.43-1.18L22 3H2zm13.543 13.774l-3.556.003-1.89-2.107-1.978 2.11-2.429-.003 3.36-3.66L5.71 9.652h2.447l1.86 2.063 1.934-2.063h2.4L11 13.107l4.543 3.667z"/></svg>
+        <span>Vue 3</span>
+      </div>
+      <div class="tech-item">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.998 0C5.366 0 0 5.367 0 12a11.992 11.992 0 008.437 11.442c.645.118.565-.28.565-.578v-2.02c-3.828.441-3.984-2.085-4.241-2.508-.52-.88-1.747-1.104-1.38-1.524.871-.448 1.757.112 2.784 1.624.745 1.095 2.197.91 2.933.728.157-.644.49-1.222.944-1.669-3.966-.713-5.622-3.145-5.622-6.032 0-1.4.462-2.688 1.369-3.723-.578-1.714.054-3.18.14-3.402 1.647-.148 3.36 1.18 3.493 1.286a11.442 11.442 0 013.186-.441c1.116 0 2.178.157 3.172.436.321-.245 1.912-1.38 3.436-1.24.084.22.702 1.653.15 3.34.923 1.04 1.39 2.341 1.39 3.745 0 2.898-1.674 5.33-5.655 6.028.596.583.966 1.39.966 2.282v2.94c.023.232 0 .462.428.462A12.009 12.009 0 0024 12C24 5.367 18.633 0 11.998 0z"/></svg>
+        <span>Node.js</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contato">
+    <h2>Vamos construir algo<br><span class="gradient-text">incrivel juntos?</span></h2>
+    <p>Entre em contato e conte-nos sobre o seu projeto.</p>
+    <a href="https://wa.me/5518997217059" target="_blank" rel="noopener" class="btn btn-primary" style="position:relative">
+      Iniciar Conversa
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">WDev /&gt;</div>
+    <div>&copy; 2026 WDev. Todos os direitos reservados.</div>
+  </footer>
+
+  <!-- NODE CANVAS ANIMATION -->
+  <script>
+    const canvas = document.getElementById('nodeCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles;
+
+    function resize() {
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+    }
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = (Math.random() - .5) * .4;
+        this.vy = (Math.random() - .5) * .4;
+        this.r = Math.random() * 2.5 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > w) this.vx *= -1;
+        if (this.y < 0 || this.y > h) this.vy *= -1;
+      }
+    }
+
+    function init() {
+      resize();
+      const count = Math.min(80, Math.floor(w * h / 12000));
+      particles = Array.from({ length: count }, () => new Particle());
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.update();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(245,183,49,.35)';
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 160) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(232,150,43,${.12 * (1 - dist / 160)})`;
+            ctx.lineWidth = .6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    init();
+    draw();
+
+    /* Intersection Observer for fade-in */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animation = 'fadeUp .7s ease both';
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: .15 });
+
+    document.querySelectorAll('.stat, .service-card, .tech-item').forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
